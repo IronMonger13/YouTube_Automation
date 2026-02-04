@@ -1,118 +1,99 @@
 # YouTube Automation
 
-## Overview
+This is an experimental but serious automation project for generating YouTube Shorts end-to-end using a fully self-hosted stack.
 
-This project is a system for automating YouTube content creation and processing using n8n.
+The goal is simple: once triggered, the system should run without manual intervention and output a finished short-form video.
 
-Instead of relying on isolated scripts, this repository focuses on building reliable, repeatable workflows that can handle failures, resume execution, and scale as complexity increases.
-
-The goal is simple:
-- reduce manual work
-- make AI-generated content usable in real pipelines
-- avoid restarting everything when one step fails
+This repository represents an evolving system, not a polished product.
 
 ---
 
 ## What This Project Does
 
-At a high level, this project automates the journey from input → AI output → processed assets, while keeping track of state so progress is not lost.
+The pipeline automates the full lifecycle of a short-form video:
 
-It currently supports:
-- AI-assisted content generation
-- Structured handling of prompts and outputs
-- Validation and error handling around AI responses
-- Media processing workflows (e.g. video/audio handling)
-- Workflow execution with retries and recovery
-- Persistent tracking of intermediate results
+1. **Script, description, and image prompt generation**  
+   Uses a self-hosted LLM to generate:
+   - video script
+   - video description
+   - SDXL-style prompts for image generation
 
----
+2. **Image generation**  
+   Images are generated locally using ComfyUI.
 
-## Why This Exists
+3. **Voiceover generation**  
+   Voiceover audio is generated using Kokoro TTS.
 
-Most AI automation breaks in the real world because:
-- AI outputs are inconsistent
-- failures force full reruns
-- intermediate data gets lost
-- scripts assume everything works the first time
+4. **Subtitle generation**  
+   Subtitles are generated from the voiceover using faster-whisper, with support for different subtitle styles.
 
-This project is designed around the opposite assumption:
-things will fail.
+5. **Video assembly**  
+   Images, voiceover, and subtitles are merged into a single vertical video using FFmpeg, including basic cinematic effects.
 
-So the system is built to:
-- store intermediate results
-- resume from the last successful step
-- retry safely
-- avoid repeating expensive operations unnecessarily
+The final output is a ready-to-publish YouTube Short.
 
 ---
 
-## How the System Is Structured
+## Current Scope
 
-The project is organized as a pipeline of steps, where each step:
-- has a clear responsibility
-- produces structured output
-- can be retried independently
+- Target platform: **YouTube Shorts**
+- Video format: **vertical (9:16)**
+- Fully self-hosted
+- Designed to run end-to-end once triggered
 
-Key design principles:
-- Modularity: steps can be adjusted or replaced without rewriting the entire system
-- Persistence: important state is saved to disk instead of living only in memory
-- Observability: failures are logged clearly, not swallowed silently
-- Extensibility: new capabilities can be added without breaking existing workflows
-
----
-
-## Current Capabilities (High Level)
-
-Without diving into implementation details, the project currently includes:
-- AI-driven generation pipelines
-- Output validation and correction layers
-- Media processing utilities
-- Workflow orchestration logic
-- Retry and recovery mechanisms
-
-Details are intentionally kept at a high level to keep the README stable as the system evolves.
-
----
-
-## How to Use This Repository
-
-This repository is under active development.
-
-Typical usage involves:
-1. Configuring inputs and parameters
-2. Running the automation workflow
-3. Inspecting generated outputs and logs
-4. Re-running failed steps if needed
-
-Exact commands and configurations may change as the system evolves, so refer to inline documentation and scripts for the most accurate usage.
+Support for other short-form platforms (Instagram Reels, TikTok) is intentionally left open but is **not a current priority**.
 
 ---
 
 ## Design Philosophy
 
-This project prioritizes:
-- correctness over speed
-- reliability over cleverness
-- systems over scripts
+- **Automation-first**  
+  The system is designed to run without manual steps once execution begins.
 
-It is built for long-term use, not quick demos.
+- **Self-hosted by default**  
+  All major components (LLMs, image generation, TTS, transcription) run locally.
+
+- **Modular services**  
+  Each major responsibility is isolated into its own service (LLM, ComfyUI, TTS, Whisper, orchestration).
+
+- **Practical over perfect**  
+  This project favors working systems and iteration over premature abstraction.
+
+---
+
+## What This Is Not
+
+- A SaaS product
+- A beginner-friendly tutorial
+- A one-click setup
+- A finalized or stable architecture
+
+Breaking changes are expected as the system evolves.
+
+---
+
+## Future Direction (High-Level)
+
+This section intentionally avoids timelines or implementation details.
+
+Planned areas of improvement include:
+- Performance and stability improvements
+- Smarter orchestration and failure handling
+- Modular / plugin-style workflows
+- Strategy and decisioning layers to control:
+  - content generation
+  - prompt selection
+  - visual pacing
+  - subtitle behavior
+- Improved extensibility for additional platforms
+
+Details will emerge as the system matures.
 
 ---
 
 ## Project Status
 
-This project is actively developed and evolving.
+Active development.  
+Architecture and workflows are expected to change.
 
-Expect:
-- internal refactoring
-- improved abstractions
-- better tooling around existing workflows
-
-Public interfaces and documentation will stabilize over time.
-
----
-
-## Disclaimer
-
-This repository reflects an ongoing engineering effort.
-Breaking changes may occur as the system matures.
+This README reflects the current intent, not a final state.
