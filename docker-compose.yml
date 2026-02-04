@@ -1,0 +1,74 @@
+version: "3.9"
+
+services:
+  n8n:
+    build:
+      context: ./n8n-docker
+      dockerfile: Dockerfile
+    container_name: n8n
+    ports:
+      - "5678:5678"
+    volumes:
+      - ${USERPROFILE}\.n8n:/home/node/.n8n
+      - C:\YT_Automation:/home/node/.n8n-files/YT_Automation
+    environment:
+      - N8N_ALLOW_EXECUTE_COMMAND=true
+      - N8N_ENABLE_NODE_DEV=true
+      - NODES_EXCLUDE=[]
+      - N8N_FILESYSTEM_PATH_WHITELIST=/data
+      - N8N_BLOCK_FILE_ACCESS_TO_N8N_FILES=false
+      - N8N_SECURE_FILE_SYSTEM_ACCESS=false
+    depends_on:
+      - ollama
+      - comfyui
+      - kokoro
+    restart: unless-stopped
+  
+  whisper:
+    build:
+      context: ./whisper-docker
+    container_name: whisper
+    ports:
+      - "9000:9000"
+    volumes:
+      - C:\YT_Automation:/home/node/.n8n-files/YT_Automation
+    restart: unless-stopped
+
+
+  comfyui:
+    build:
+      context: ./comfy-docker
+      dockerfile: Dockerfile
+    container_name: comfyui
+    ports:
+      - "8188:8188"
+    volumes:
+      - C:/YT_Automation/comfy-docker/comfy_data/models:/app/models
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    restart: unless-stopped
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+
+  kokoro:
+    image: ghcr.io/remsky/kokoro-fastapi-cpu:v0.2.2
+    container_name: kokoro-tts-cpu
+    ports:
+      - "8880:8880"
+    restart: unless-stopped
+
+volumes:
+  n8n_data:
+  ollama_data:
