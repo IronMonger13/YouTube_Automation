@@ -1,0 +1,48 @@
+# services:
+#   n8n:
+#     # image: n8nio/n8n:latest
+#     build: .
+#     ports:
+#       - "5678:5678"
+#     environment:
+#       - N8N_ALLOW_EXECUTE_COMMAND=true
+#       - N8N_ENABLE_NODE_DEV=true
+#       - NODES_EXCLUDE=[]
+#       - N8N_FILESYSTEM_PATH_WHITELIST=/data
+#       - N8n_RESTRICT_FILE_ACCESS_TO=
+#       - N8N_BLOCK_FILE_ACCESS_TO_N8N_FILES=false
+#       - N8N_SECURE_FILE_SYSTEM_ACCESS=false
+#     volumes:
+#       - ${USERPROFILE}\.n8n:/home/node/.n8n
+#       - //var/run/docker.sock:/var/run/docker.sock
+#       # - C:/YT_Automation/Voiceovers:/home/node/files
+
+
+services:
+  n8n:
+    build: .
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_ALLOW_EXECUTE_COMMAND=true
+      - N8N_ENABLE_NODE_DEV=true
+      - NODES_EXCLUDE=[]
+      - N8N_FILESYSTEM_PATH_WHITELIST=/data
+      - N8n_RESTRICT_FILE_ACCESS_TO=
+      - N8N_BLOCK_FILE_ACCESS_TO_N8N_FILES=false
+      - N8N_SECURE_FILE_SYSTEM_ACCESS=false
+    volumes:
+      - ${USERPROFILE}\.n8n:/home/node/.n8n
+      - //var/run/docker.sock:/var/run/docker.sock
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+
+volumes:
+  ollama_data:
