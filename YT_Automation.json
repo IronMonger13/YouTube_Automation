@@ -1,0 +1,2168 @@
+{
+  "name": "YT_Automation",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -2272,
+        32
+      ],
+      "id": "54eec188-5ced-4389-969c-47d5c4db0669",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=## Role\nYou are a sharp, culturally aware short-form copywriter who understands Gen Z humor, meme rhythm, and subtle internet tone. You think strategically before writing, testing multiple tonal variations internally and selecting the strongest hook.\n\n## Goal\nGenerate a single YouTube Shorts description based on:\n- Title: {{ $json.title }}\n- Story & Quote: {{ $json.script }}\n- Keywords: {{ $('Video Metadata').item.json['Video Keywords'] }}\n\n## Instructions\n\n1. Internally apply structured reasoning:\n   - Briefly consider multiple tonal approaches (subtle irony, restrained chaos, understated intensity, dry humor).\n   - Evaluate which one best matches the story’s emotional weight.\n   - Select the strongest version.\n   - Do not reveal this reasoning in the final output.\n\n2. Write one catchy YouTube Shorts description:\n   - Maximum 15 words.\n   - Must feel Gen Z / meme / brainrot energy, but not forced.\n   - Tone should subtly reflect the emotional core of the story.\n   - Avoid sounding promotional.\n   - Avoid directly repeating or overusing the provided keywords.\n   - Make it relatable and curiosity-inducing.\n\n3. Output rules:\n   - Output ONLY the description text.\n   - No formatting.\n   - No emojis.\n   - No hashtags.\n   - No explanations.\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -1552,
+        336
+      ],
+      "id": "c0dc5d0d-e04d-4ec2-ba67-4c8120aefead",
+      "name": "Description Agent",
+      "retryOnFail": false,
+      "maxTries": 2,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bd0cf110-e92c-4b91-a758-d478d6e3ad33",
+              "name": "Video Title",
+              "value": "={{ $('Validate Script Structure').item.json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "baf07bd3-a43c-42de-8b9f-c5f1708c52c0",
+              "name": "Keywords",
+              "value": "={{ $('Video Metadata').item.json['Video Keywords'] }}",
+              "type": "string"
+            },
+            {
+              "id": "3561a2b2-a047-42d7-ba03-bf2f2097a604",
+              "name": "Description",
+              "value": "={{ $('Description Agent').item.json.output }}",
+              "type": "string"
+            },
+            {
+              "id": "52fd02c9-63fa-4ed3-95bf-8d28fd406ae6",
+              "name": "Number of Images",
+              "value": "={{ $('Video Metadata').item.json['Number of Images'] }}",
+              "type": "number"
+            },
+            {
+              "id": "0022e9ed-12e6-46c6-b9cc-eccf601ceccb",
+              "name": "Time to Publish",
+              "value": "={{ $('Video Metadata').item.json['Time to Publish'] }}",
+              "type": "string"
+            },
+            {
+              "id": "492efe6e-bcb0-4d55-ad8a-6577695bc82d",
+              "name": "Script",
+              "value": "={{ $('Validate Script Structure').item.json.script }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1008,
+        256
+      ],
+      "id": "73d79d93-a791-409d-add2-128639b2b808",
+      "name": "Into Sheets"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      startTime: Date.now()\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1952,
+        32
+      ],
+      "id": "d9be4496-cf0e-41f5-97c9-b18556fd9c6a",
+      "name": "Timer Start"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1SokHOcZOiYfrz26BD6gPRJyYEt02RVk6AYvb2NbNlyc/edit?usp=sharing",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1SokHOcZOiYfrz26BD6gPRJyYEt02RVk6AYvb2NbNlyc/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filename": "={{ $json.filename }}",
+            "Video Title": "={{ $('Into Sheets').item.json['Video Title'] }}",
+            "Keywords": "={{ $('Into Sheets').item.json.Keywords }}",
+            "Description": "={{ $('Into Sheets').item.json.Description }}",
+            "Script": "={{ $('Into Sheets').item.json.Script }}",
+            "Number of Images": "={{ $('Into Sheets').item.json['Number of Images'] }}",
+            "Time to Publish": "={{ $('Into Sheets').item.json['Time to Publish'] }}",
+            "Published?": "Not Published"
+          },
+          "matchingColumns": [
+            "filename"
+          ],
+          "schema": [
+            {
+              "id": "Video Title",
+              "displayName": "Video Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "filename",
+              "displayName": "filename",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Keywords",
+              "displayName": "Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Description",
+              "displayName": "Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Script",
+              "displayName": "Script",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Number of Images",
+              "displayName": "Number of Images",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Time to Publish",
+              "displayName": "Time to Publish",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Published?",
+              "displayName": "Published?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Time Taken to Generate Video",
+              "displayName": "Time Taken to Generate Video",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -624,
+        256
+      ],
+      "id": "0743baa7-97f4-4684-9c2d-012aaa0cc37b",
+      "name": "Fill Video Metadata",
+      "retryOnFail": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "nTmJTgv7FbDjKF0T",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=## Role\nYou are a cinematic visual director specializing in highly detailed SDXL image prompts. You think visually and structurally before writing, internally exploring multiple composition variations and selecting the most powerful cinematic interpretations.\n\n## Goal\nGenerate exactly {{ $('Video Metadata').item.json['Number of Images'] }} image prompts based on:\n\nStory:\n{{ $('Validate Script Structure').item.json.script }}\n\n## Instructions\n\n1. Internally apply structured reasoning:\n   - Break the story into key visual moments.\n   - For each required image, explore multiple scene interpretations.\n   - Evaluate composition, symbolism, lighting contrast, and emotional weight.\n   - Select the most cinematic and visually strong version for each image.\n   - Do not reveal this reasoning in the final output.\n\n2. Visual direction requirements:\n   - Style must be stoic, Roman-inspired, philosophical, dramatic, timeless.\n   - Evoke Marcus Aurelius and Seneca.\n   - Highly descriptive and cinematic.\n   - Include environment details.\n   - Specify lighting direction.\n   - Include atmosphere such as mist dust wind smoke.\n   - Include camera framing such as wide shot close-up over-shoulder.\n   - Include lens type such as 35mm 85mm.\n   - Include texture detail such as weathered stone cracked marble aged bronze.\n   - Avoid quotation marks.\n   - Avoid commas.\n   - Avoid commentary.\n\n3. Output format rules:\n   - Output exactly:\n     Image Prompt: <prompt text>\n   - Repeat exactly {{ $('Video Metadata').item.json['Number of Images'] }} times.\n   - Do not number.\n   - Do not explain.\n   - Do not include any extra text.\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -1040,
+        432
+      ],
+      "id": "4231daf5-84b2-4815-b151-08b37b9fe41f",
+      "name": "Image Generation Prompts",
+      "retryOnFail": false,
+      "maxTries": 2,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// // -------WORKING-----------\n// let raw = $('Image Generation Prompts').first()?.json?.output;\n\n// if (!raw || raw.trim().length === 0) {\n//   raw = `---\n// A lone Roman emperor stands at dawn on a marble balcony overlooking a silent empire bathed in golden light. Soft mist rises from distant hills as he reflects in solitude wearing simple armor weathered by time\n// ---\n// An aged philosopher walks through a quiet stone courtyard at twilight illuminated by oil lamps. Long shadows stretch across ancient pillars as he contemplates resilience and inner discipline\n// ---;`\n// // A storm gathers over a rugged cliffside where a solitary figure faces the roaring sea without fear. Dark clouds part slightly as a narrow beam of light reveals calm determination in his posture\n// // ---`;\n// }\n\n// const prompts = raw\n//   .split('---')\n//   .map(p => p.trim())\n//   .filter(p => p.length > 0);\n\n// return prompts.map((p, i) => ({\n//   json: {\n//     index: i + 1,\n//     prompt: p\n//   }\n// }));\n\n\nconst raw = $input.first().json.output;\n\nif (!raw) return [];\n\n// Normalize newlines and remove weird spacing\nconst cleaned = raw\n  .replace(/\\r/g, '')\n  .replace(/\\n+/g, '\\n')\n  .trim();\n\n// Extract ONLY parts that follow \"Image Prompt:\"\nconst matches = cleaned.match(/Image Prompt:\\s*([\\s\\S]*?)(?=\\n\\s*Image Prompt:|$)/gi);\n\nif (!matches) return [];\n\nconst prompts = matches.map((block, index) => {\n  return {\n    json: {\n      index: index + 1,\n      prompt: block.replace(/Image Prompt:\\s*/i, '').trim()\n    }\n  };\n});\n\nreturn prompts;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -496,
+        432
+      ],
+      "id": "40883112-71d8-4f81-86a5-34ec7a758f38",
+      "name": "Separate Image Prompts"
+    },
+    {
+      "parameters": {
+        "jsCode": "const inputs = $input.all();\nconst result = [];\n\nfor (const item of inputs) {\n  const json = item.json;\n\n  for (const promptId in json) {\n    const data = json[promptId];\n    const filename = data?.outputs?.['9']?.images?.[0]?.filename;\n\n    if (filename) {\n      result.push({\n        ...item.json, // PRESERVE original fields like prompt_id\n        prompt_id: promptId,\n        filename: filename,\n        image_url: `http://host.docker.internal:8188/view?filename=${encodeURIComponent(filename)}&type=output`\n      });\n    }\n  }\n}\n\nif (result.length === 0) {\n  // VERY IMPORTANT: return original items if nothing found\n  return inputs;\n}\n\nreturn result.map(obj => ({ json: obj }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1040,
+        832
+      ],
+      "id": "006e9c34-c99f-4aad-b255-d0789633bd39",
+      "name": "Clean Image URLs",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "url": "=http://host.docker.internal:8188/history/{{ $json.body.prompt_id }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -1248,
+        832
+      ],
+      "id": "af84e0c2-abe9-4ede-a930-0450b93cd0ef",
+      "name": "Get Image Info"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Total prompts generated (each item = one prompt)\nconst actualCount = $input.all().length;\n\n// Expected number from Video Information node\nconst expectedCount = $('Video Metadata').first().json['Number of Images'];\n\nif (typeof expectedCount !== 'number') {\n  throw new Error(\"Number of Images is not defined or not a number in Video Information node.\");\n}\n\nif (actualCount !== expectedCount) {\n  throw new Error(\n    `Prompt count mismatch: expected ${expectedCount} but received ${actualCount}. Workflow stopped.`\n  );\n}\n\n// If everything matches, pass items forward unchanged\nreturn $input.all();\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -288,
+        432
+      ],
+      "id": "aede65f7-334b-48d6-a78d-411766e84b75",
+      "name": "Validate: Img Prompts = No. of Images",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "a61f2ef5-b45e-4d31-8ad6-7d379c12a023",
+              "leftValue": "={{ $('Image Generation Prompts').item.json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -736,
+        432
+      ],
+      "id": "6478ef2e-8e41-4690-ab67-c85b7a81a733",
+      "name": "Handling Image Prompts Generation Error"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "d1017fe2-1f5d-44f2-8a46-8d24ed7f6ecf",
+              "leftValue": "={{ $('Wait for ComfyUI server to start').item.json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1376,
+        32
+      ],
+      "id": "f2242015-9607-4437-a200-63d65a61130a",
+      "name": "ComfyUI Server Start Check"
+    },
+    {
+      "parameters": {
+        "errorMessage": "Stopping Intentionally"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        1744
+      ],
+      "id": "367afaba-0891-4398-8b61-b7be29b66f2c",
+      "name": "Stop and Error"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://whisper:9000/asr",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"audio_file\": \"/home/node/.n8n-files/YT_Automation/Media/Voiceover/{{ $('Generate Safe Filename').first().json.filename }}.mp3\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -1408,
+        1744
+      ],
+      "id": "1afa8946-2afe-4a7d-8d39-e7de4ed33823",
+      "name": "Transcribe Voiceover",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "command": "=/usr/bin/ffmpeg \\\n-i /home/node/.n8n-files/YT_Automation/Media/Videos/{{ $('Generate Safe Filename').first().json.filename }}_after_filters.mp4 \\\n-vf \"ass=/home/node/.n8n-files/YT_Automation/Media/Subtitles/{{ $('Generate Safe Filename').first().json.filename }}.ass\" \\\n-c:v libx264 \\\n-pix_fmt yuv420p \\\n-c:a copy \\\n-y /home/node/.n8n-files/YT_Automation/Media/Final_Renders/{{ $('Generate Safe Filename').first().json.filename }}.mp4\n"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        -464,
+        1744
+      ],
+      "id": "189670f5-d5eb-4cce-bebd-5efaead32044",
+      "name": "Burn Subtitles"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Video Metadata').item.json['Subtitle Type'] }}",
+                    "rightValue": "word-by-word",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "9124d875-c427-43db-a270-4e656bc91d2b"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "3751dc0a-fcab-4598-956e-c9152012b242",
+                    "leftValue": "={{ $('Video Metadata').item.json['Subtitle Type'] }}",
+                    "rightValue": "phrase-by-phrase",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -1232,
+        1744
+      ],
+      "id": "df0d5df5-d172-4b70-b5d1-cfbc6c327a38",
+      "name": "Select Subtitle Style"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "llama3.2:latest",
+          "mode": "list",
+          "cachedResultName": "llama3.2:latest"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -2432,
+        512
+      ],
+      "id": "21d88a24-abe6-4df3-a696-df105c913b10",
+      "name": "LLM – Script Generator",
+      "credentials": {
+        "openAiApi": {
+          "id": "6r23Cbl9kYXbEbV4",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "llama3.2:latest",
+          "mode": "list",
+          "cachedResultName": "llama3.2:latest"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -1552,
+        528
+      ],
+      "id": "e00db15d-ad16-402b-b0e4-7a700dc3dda2",
+      "name": "LLM – Description Generator",
+      "credentials": {
+        "openAiApi": {
+          "id": "6r23Cbl9kYXbEbV4",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "llama3.2:latest",
+          "mode": "list",
+          "cachedResultName": "llama3.2:latest"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -1040,
+        624
+      ],
+      "id": "9e24535b-f42a-4cca-bff3-37c89dd48af9",
+      "name": "LLM – Image Prompt Generator",
+      "credentials": {
+        "openAiApi": {
+          "id": "6r23Cbl9kYXbEbV4",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "chooseBranch",
+        "useDataOfInput": 2
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -688,
+        1152
+      ],
+      "id": "38cc5ed9-7f47-4fb6-9b62-14cdece04c51",
+      "name": "Merge – Voice + Duration"
+    },
+    {
+      "parameters": {
+        "mode": "chooseBranch",
+        "useDataOfInput": 2
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -2032,
+        832
+      ],
+      "id": "183165cd-7519-409a-814e-0394a7d0e078",
+      "name": "Merge – Image Flow"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        272,
+        432
+      ],
+      "id": "25abe222-535b-4441-ba8e-f2d3c7eba460",
+      "name": "Delete after removing Google sheets"
+    },
+    {
+      "parameters": {
+        "amount": 3
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -208,
+        32
+      ],
+      "id": "9c57ffa2-6cb9-44f0-bbe3-c1380afb3624",
+      "name": "Wait – Server Boot",
+      "webhookId": "8b3e9b1c-a8b5-455c-a809-89a80289215f"
+    },
+    {
+      "parameters": {
+        "amount": "={{ ($('Video Metadata').item.json['Number of Images'] * 35) + 10 }}"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -1456,
+        832
+      ],
+      "id": "f88d4142-1002-480d-b3ca-df35592f37e4",
+      "name": "Wait – Image Generation Cooldown",
+      "webhookId": "50f3cfa3-de11-418f-81ba-60c4d45e2405"
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -592,
+        832
+      ],
+      "id": "d179aa12-7a36-457f-ac0b-fdfed25eece2",
+      "name": "Wait – Safety Delay Before Render",
+      "webhookId": "d0ac90c5-35d3-4e78-9e2b-a38d4f81b163"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:2375/v1.44/containers/comfyui/start",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -1760,
+        32
+      ],
+      "id": "12d35752-3c34-4de2-88f1-ecc4748b98ac",
+      "name": "Docker - Start ComfyUI",
+      "alwaysOutputData": false,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:2375/containers/kokoro-tts-cpu/start",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -816,
+        32
+      ],
+      "id": "17f573a6-4224-4d15-b378-f913e7f68f22",
+      "name": "Docker - Start Kokoro",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:2375/containers/ollama/start",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -624,
+        32
+      ],
+      "id": "ce6d7b39-1fb3-40b5-8f03-0f7345ffc93f",
+      "name": "Docker - Start Ollama",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:2375/v1.44/containers/whisper/start",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -416,
+        32
+      ],
+      "id": "a96d6339-7947-4eb7-9ef3-a4ad4755498c",
+      "name": "Docker - Start Whisper"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:2375/containers/ollama/stop",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        96,
+        432
+      ],
+      "id": "9a5f2d21-cae1-437d-9723-2d703ff30fed",
+      "name": "Docker - Stop Ollama"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:2375/containers/kokoro-tts-cpu/stop",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -928,
+        1152
+      ],
+      "id": "5436d9fd-3497-4275-b749-3bae697303ec",
+      "name": "Docker - Stop Kokoro",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:2375/v1.44/containers/whisper/stop",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -656,
+        1744
+      ],
+      "id": "06a86178-16b8-4165-ae8e-00d320116b10",
+      "name": "Docker - Stop Whisper"
+    },
+    {
+      "parameters": {
+        "jsCode": "const rawTitle = $input.first().json['Video Title']\n\nconst cleanTitle = rawTitle.toLowerCase().replace(/['\"]/g, '').replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '')\n\nreturn{\n  filename: `${cleanTitle}`\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -816,
+        256
+      ],
+      "id": "347ba298-cc64-4280-8e92-e50b3914274f",
+      "name": "Generate Safe Filename"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=## Role\nYou are a disciplined philosophical writer specializing in short-form stoic literature with an ancient Rome atmosphere. You think carefully before writing, internally exploring multiple thematic directions and selecting the strongest one before producing the final output.\n\n## Goal\nGenerate structured JSON output that matches the required schema:\n\n```json\n{\n  \"title\": \"string\",\n  \"script\": \"string\"\n}\n```\n\nThe output must contain exactly one item in the prompts array.\n\n## Instructions\n\n1. Internally apply structured reasoning:\n   - First, consider multiple possible themes (self-control, delayed gratification, resilience, solitude, consistency, emotional restraint, long-term thinking, responsibility, inner strength).\n   - Briefly evaluate which theme would produce the most powerful short-form piece.\n   - Select the strongest option.\n   - Do not reveal this reasoning in the final output.\n\n2. Write a single original short-form piece inspired by stoicism, discipline, and self-mastery with an ancient Rome theme.\n\n3. Structure the content as:\n   - \"title\": A calm, impactful title (maximum 5 words) that sounds like a principle, rule, or maxim.\n   - \"script\": \n       - Begin with a very short narrative hook (1–2 sentences) written like a quiet observation, journal entry, or internal resolve.\n       - Follow with one sharp, grounded, or unsettling line that reflects restraint, endurance, or clarity under pressure.\n       - Entire story must be under 45 words total.\n\n4. Language requirements:\n   - Simple, controlled, intentional wording.\n   - Calm, disciplined, reflective, slightly severe tone.\n   - Clear modern English.\n   - Quote-worthy and timeless.\n\n5. Output rules:\n   - Return valid JSON only.\n   - No markdown.\n   - No explanation.\n   - No extra text outside the JSON structure.\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -2432,
+        336
+      ],
+      "id": "d99bd8d6-d034-4a47-a81c-1a5cd4516596",
+      "name": "Generate Script",
+      "alwaysOutputData": false,
+      "retryOnFail": false,
+      "maxTries": 2,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "c358f294-3026-41a8-974a-d5db5b227578",
+              "leftValue": "={{ $('Validate Script Structure').item.json.error }}",
+              "rightValue": "Output format corrector",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1760,
+        336
+      ],
+      "id": "fb33c676-3eb2-470b-9fe0-b5a39b7f3639",
+      "name": "Fix Script JSON"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "4760f68e-4539-4f13-bb52-c9a1250d2925",
+              "leftValue": "={{ $('Generate Script').item.json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -2144,
+        336
+      ],
+      "id": "21920784-374d-49a2-82a5-f2743c2faf84",
+      "name": "Handle Script Errors"
+    },
+    {
+      "parameters": {
+        "jsCode": "const parsed = JSON.parse($input.first().json.output);\n\nreturn [\n  {\n    json: {\n      title: parsed.title,\n      script: parsed.script\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1952,
+        336
+      ],
+      "id": "3c6059ca-6228-4734-a593-4075f004f253",
+      "name": "Validate Script Structure",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8188/prompt",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "=json",
+        "bodyParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "jsonBody": "={\n  \"prompt\": {\n    \"6\": {\n      \"inputs\": {\n        \"text\": \"{{ $json.prompt }}\",\n        \"clip\": [\"30\", 1]\n      },\n      \"class_type\": \"CLIPTextEncode\"\n    },\n    \"8\": {\n      \"inputs\": {\n        \"samples\": [\"31\", 0],\n        \"vae\": [\"30\", 2]\n      },\n      \"class_type\": \"VAEDecode\"\n    },\n    \"9\": {\n      \"inputs\": {\n        \"filename_prefix\": \"ComfyUI\",\n        \"images\": [\"8\", 0]\n      },\n      \"class_type\": \"SaveImage\"\n    },\n    \"27\": {\n      \"inputs\": {\n        \"width\": 900,\n        \"height\": 1600,\n        \"batch_size\": 1\n      },\n      \"class_type\": \"EmptyLatentImage\"\n    },\n    \"30\": {\n      \"inputs\": {\n        \"ckpt_name\": \"perfectdeliberate_v5SD15.safetensors\"\n      },\n      \"class_type\": \"CheckpointLoaderSimple\"\n    },\n    \"31\": {\n      \"inputs\": {\n        \"seed\": {{ Math.floor(Math.random() * 1000000000000000) }},\n        \"steps\": 30,\n        \"cfg\": 7,\n        \"sampler_name\": \"euler\",\n        \"scheduler\": \"simple\",\n        \"denoise\": 1,\n        \"model\": [\"30\", 0],\n        \"positive\": [\"6\", 0],\n        \"negative\": [\"33\", 0],\n        \"latent_image\": [\"27\", 0]\n      },\n      \"class_type\": \"KSampler\"\n    },\n    \"33\": {\n      \"inputs\": {\n        \"text\": \"\",\n        \"clip\": [\"30\", 1]\n      },\n      \"class_type\": \"CLIPTextEncode\"\n    }\n  }\n}\n",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -1872,
+        832
+      ],
+      "id": "67ed343e-03cc-45dd-8b93-1c0dd97a57ec",
+      "name": "Generate Scene Images",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.image_url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -416,
+        832
+      ],
+      "id": "6346a804-c634-4b17-b23c-75f5ba8b34ca",
+      "name": "Fetch Generated Images"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "=/home/node/.n8n-files/YT_Automation/Media/Images/{{ $('Generate Safe Filename').first().json.filename }}_{{ $itemIndex + 1}}.png",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        -208,
+        832
+      ],
+      "id": "7bdee364-1637-498a-a769-be5cf9c8131c",
+      "name": "Save Images to Disk"
+    },
+    {
+      "parameters": {
+        "jsCode": "// How many cleaned image URL items were produced\nconst actualCount = $input.all().length;\n\n// Expected image count from Video Information node\nconst expectedCount = $('Video Metadata').first().json['Number of Images'];\n\nif (typeof expectedCount !== 'number') {\n  throw new Error(\"Number of Images is not defined properly in Video Information.\");\n}\n\nif (actualCount !== expectedCount) {\n  throw new Error(\n    `Image generation mismatch. Expected ${expectedCount} images but received ${actualCount} cleaned image URLs. Stopping workflow.`\n  );\n}\n\n// If everything matches, pass items forward unchanged\nreturn $input.all();\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -816,
+        832
+      ],
+      "id": "87625888-ffe4-4fc0-bd10-a08a4cc7703f",
+      "name": "Validate Image Count"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://kokoro:8880/v1/audio/speech",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"kokoro\",\n  \"input\": \"{{ $('Validate Script Structure').item.json.script }}\",\n  \"voice\": \"am_michael\"\n} ",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -1584,
+        1152
+      ],
+      "id": "99ae491a-dd48-4e8c-bc53-92c3774db510",
+      "name": "Generate Voiceover Audio"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:2375/v1.44/containers/comfyui/stop",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        0,
+        832
+      ],
+      "id": "6ee953b1-619c-4d49-9e2f-213127d00535",
+      "name": "Docker - Stop ComfyUI",
+      "alwaysOutputData": false,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "=/home/node/.n8n-files/YT_Automation/Media/Voiceover/{{ $('Generate Safe Filename').first().json.filename }}.mp3",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        -1168,
+        1152
+      ],
+      "id": "e6a02f4c-8d0d-4eb7-bb93-b8048dec2bea",
+      "name": "Save Voiceover to Disk"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "a116c042-ea6c-49d2-bea8-43317aea6909",
+              "leftValue": "={{ $('Generate Voiceover Audio').item.json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1392,
+        1152
+      ],
+      "id": "b985b6f7-e706-4f6f-b565-d9783d27bda8",
+      "name": "Retry Flow on Failure"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "a116c042-ea6c-49d2-bea8-43317aea6909",
+              "leftValue": "={{ $('Generate Scene Images').item.json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1664,
+        832
+      ],
+      "id": "f4b620ec-5f4e-4c79-954c-efafce5ae3bd",
+      "name": "Restart Flow on Failure"
+    },
+    {
+      "parameters": {
+        "jsCode": "const duration = parseFloat($input.first().json.stdout);\n\nconst ceiled = Math.ceil(duration);\nconst divided = ceiled / $('Video Metadata').first().json['Number of Images'];\n\nreturn [\n  {\n    json: {\n      original: duration,\n      ceiled,\n      result: divided\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1168,
+        1376
+      ],
+      "id": "aa7177c9-9894-4a34-a704-4e36a60f17ca",
+      "name": "Calculate Image Duration"
+    },
+    {
+      "parameters": {
+        "command": "=/usr/bin/ffmpeg \\\n-framerate {{ 1 / $json.result }} \\\n-i \"/home/node/.n8n-files/YT_Automation/Media/Images/{{ $('Generate Safe Filename').first().json.filename }}_%d.png\" \\\n-c:v libx264 \\\n-pix_fmt yuv420p \\\n-r 30 \\\n-y /home/node/.n8n-files/YT_Automation/Media/Videos/{{ $('Generate Safe Filename').first().json.filename }}_no_audio.mp4"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        -2032,
+        1744
+      ],
+      "id": "ceb5bdc6-fdfb-4c72-a53a-4dd316366be0",
+      "name": "Create Base Video (Images Only)"
+    },
+    {
+      "parameters": {
+        "command": "=/usr/bin/ffmpeg \\\n-i /home/node/.n8n-files/YT_Automation/Media/Videos/{{ $('Generate Safe Filename').first().json.filename }}_no_audio.mp4 \\\n-i /home/node/.n8n-files/YT_Automation/Media/Voiceover/{{ $('Generate Safe Filename').first().json.filename }}.mp3 \\\n-c:v copy \\\n-c:a aac \\\n-y /home/node/.n8n-files/YT_Automation/Media/Videos/{{ $('Generate Safe Filename').first().json.filename }}_with_audio.mp4\n"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        -1824,
+        1744
+      ],
+      "id": "5d1b4c3c-5594-4490-a8bc-2d1ff33c0e1a",
+      "name": "Add Audio to Video"
+    },
+    {
+      "parameters": {
+        "command": "=ffprobe -i \"/home/node/.n8n/binaryData/{{ $input.item.binary.data.id.replace('filesystem-v2:', '') }}\" -show_entries format=duration -v quiet -of csv=p=0\n"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        -1376,
+        1376
+      ],
+      "id": "01009d4d-56d1-4c36-83bc-dc4331e5fdd9",
+      "name": "Get Final Video Duration"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0fc59ab0-bcf6-4560-b0dd-3de7c2e05398",
+              "name": "Video Keywords",
+              "value": "stoicism, stoic, winner, discipline, ancient rome, roman architecture",
+              "type": "string"
+            },
+            {
+              "id": "4d061e83-0e0c-400e-bac1-cfd5d3fdd596",
+              "name": "Number of Images",
+              "value": 2,
+              "type": "number"
+            },
+            {
+              "id": "1b8601e6-e1f3-4353-b293-c0cfd8a3e58b",
+              "name": "Time to Publish",
+              "value": "={{ $now }}",
+              "type": "string"
+            },
+            {
+              "id": "ece67af2-82d8-4b82-b03d-f0eab4ae2f86",
+              "name": "Subtitle Type",
+              "value": "phrase-by-phrase",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2640,
+        336
+      ],
+      "id": "10e88019-4423-4e0e-addc-80d756ccb5e1",
+      "name": "Video Metadata"
+    },
+    {
+      "parameters": {
+        "mode": "chooseBranch"
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -1776,
+        1152
+      ],
+      "id": "2478a801-c724-4aa3-847f-d380c6249c0e",
+      "name": "Merge Workflow Branches"
+    },
+    {
+      "parameters": {
+        "jsCode": "function toAssTime(seconds) {\n  const h = Math.floor(seconds / 3600);\n  const m = Math.floor((seconds % 3600) / 60);\n  const s = (seconds % 60).toFixed(2);\n  return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(5,'0')}`;\n}\n\nconst segments = $json.segments;\n\nlet ass = `[Script Info]\nScriptType: v4.00+\nCollisions: Normal\nPlayResX: 1080\nPlayResY: 1920\nScaledBorderAndShadow: yes\n\n[V4+ Styles]\nFormat: Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding\nStyle: Default,Neusa Bold,110,&H00FFFFFF,&H000000FF,&H00000000,&H64000000,1,0,1,8,2,2,100,100,250,1\n\n[Events]\nFormat: Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text\n`;\n\nfor (const segment of segments) {\n  if (!segment.words) continue;\n\n  for (const w of segment.words) {\n    const start = toAssTime(w.start);\n    const end = toAssTime(w.end);\n\n    const cleanWord = w.word.trim().toUpperCase();\n\n    ass += `Dialogue: 0,${start},${end},Default,,0,0,0,,${cleanWord}\\n`;\n  }\n}\n\nreturn [{\n  binary: {\n    data: {\n      data: Buffer.from(ass).toString('base64'),\n      mimeType: 'text/plain',\n      fileName: 'subtitles_word.ass'\n    }\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1040,
+        1648
+      ],
+      "id": "d501a7c6-c812-4b71-b8b8-f249bb570955",
+      "name": "Generate Subtitles (Word by Word)"
+    },
+    {
+      "parameters": {
+        "jsCode": "function toAssTime(seconds) {\n  const h = Math.floor(seconds / 3600);\n  const m = Math.floor((seconds % 3600) / 60);\n  const s = (seconds % 60).toFixed(2);\n  return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(5,'0')}`;\n}\n\nconst segments = $json.segments;\n\nlet ass = `[Script Info]\nScriptType: v4.00+\nCollisions: Normal\nPlayResX: 1080\nPlayResY: 1920\n\n[V4+ Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\nStyle: Default,Neusa Bold,110,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,1,3,0,2,50,50,180,1\n\n[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n`;\n\nfor (const segment of segments) {\n  const start = toAssTime(segment.start);\n  const end = toAssTime(segment.end);\n\n  const cleanText = segment.text.trim().replace(/\\n/g, ' ');\n\n  ass += `Dialogue: 0,${start},${end},Default,,0,0,0,,{\\\\bord3\\\\shad0}${cleanText}\\n`;\n}\n\nreturn [{\n  binary: {\n    data: {\n      data: Buffer.from(ass).toString('base64'),\n      mimeType: 'text/plain',\n      fileName: 'subtitles_phrase.ass'\n    }\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1040,
+        1824
+      ],
+      "id": "516ad8f5-c642-4d1f-acfe-6c2abccd5c7e",
+      "name": "Generate Subtitles (Phrase by Phrase)"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "=/home/node/.n8n-files/YT_Automation/Media/Subtitles/{{ $('Generate Safe Filename').first().json.filename }}.ass",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        -848,
+        1744
+      ],
+      "id": "29001686-2adc-4999-89e0-3786f93c0e34",
+      "name": "Save Subtitles to Disk"
+    },
+    {
+      "parameters": {
+        "fileSelector": "=/home/node/.n8n-files/YT_Automation/Media/Final_Renders/{{ $('Generate Safe Filename').first().json.filename }}.mp4",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        -256,
+        1744
+      ],
+      "id": "271d3657-d14e-41c0-8dda-decd40082a26",
+      "name": "Preview Final Render"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "4760f68e-4539-4f13-bb52-c9a1250d2925",
+              "leftValue": "={{ $('Description Agent').item.json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1248,
+        336
+      ],
+      "id": "77b44d81-e489-4ab5-a110-1ff627c4d536",
+      "name": "Retry – Description Generation"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "311ca53f-e76c-4dad-83b6-752e13689a37",
+              "leftValue": "={{ $('Validate: Img Prompts = No. of Images').item.json.error }}",
+              "rightValue": "Validate: Img Prompts = No. of Images",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -96,
+        432
+      ],
+      "id": "28b939a1-810e-4924-b11e-035cbdfdfe0a",
+      "name": "Retry – Prompt Count Mismatch"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8188/prompt",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "=json",
+        "bodyParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "jsonBody": "={\n  \"prompt\": {\n    \"6\": {\n      \"inputs\": {\n        \"text\": \"fruits\",\n        \"clip\": [\"30\", 1]\n      },\n      \"class_type\": \"CLIPTextEncode\"\n    },\n    \"8\": {\n      \"inputs\": {\n        \"samples\": [\"31\", 0],\n        \"vae\": [\"30\", 2]\n      },\n      \"class_type\": \"VAEDecode\"\n    },\n    \"9\": {\n      \"inputs\": {\n        \"filename_prefix\": \"ComfyUI\",\n        \"images\": [\"8\", 0]\n      },\n      \"class_type\": \"SaveImage\"\n    },\n    \"27\": {\n      \"inputs\": {\n        \"width\": 100,\n        \"height\": 100,\n        \"batch_size\": 1\n      },\n      \"class_type\": \"EmptyLatentImage\"\n    },\n    \"30\": {\n      \"inputs\": {\n        \"ckpt_name\": \"perfectdeliberate_v5SD15.safetensors\"\n      },\n      \"class_type\": \"CheckpointLoaderSimple\"\n    },\n    \"31\": {\n      \"inputs\": {\n        \"seed\": 400603400457350,\n        \"steps\": 30,\n        \"cfg\": 7,\n        \"sampler_name\": \"euler\",\n        \"scheduler\": \"simple\",\n        \"denoise\": 1,\n        \"model\": [\"30\", 0],\n        \"positive\": [\"6\", 0],\n        \"negative\": [\"33\", 0],\n        \"latent_image\": [\"27\", 0]\n      },\n      \"class_type\": \"KSampler\"\n    },\n    \"33\": {\n      \"inputs\": {\n        \"text\": \"\",\n        \"clip\": [\"30\", 1]\n      },\n      \"class_type\": \"CLIPTextEncode\"\n    }\n  }\n}\n",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -1008,
+        32
+      ],
+      "id": "0bc44454-8102-4133-9035-a7524875b066",
+      "name": "Warm-Up – ComfyUI"
+    },
+    {
+      "parameters": {
+        "url": "http://comfyui:8188/system_stats",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -1568,
+        32
+      ],
+      "id": "e631e3bb-a721-4e7d-ba09-486f61c25353",
+      "name": "Wait for ComfyUI server to start",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "http://comfyui:8188/object_info",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -1184,
+        32
+      ],
+      "id": "28c13acb-c9c7-4c52-90a3-a25fb44f1bbc",
+      "name": "Wait – ComfyUI Model Ready",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "command": "=/usr/bin/ffmpeg \\\n-i /home/node/.n8n-files/YT_Automation/Media/Videos/{{ $('Generate Safe Filename').first().json.filename }}_with_audio.mp4 \\\n-filter_complex \"\\\nzoompan=z='min(zoom+0.0007,1.05)':d=1:fps=30:s=1080x1920,\\\neq=contrast=1.08:saturation=1.1,\\\nunsharp=5:5:0.8:3:3:0.4,\\\nvignette=PI/5,\\\nfade=t=in:st=0:d=0.5\\\n\" \\\n-c:v libx264 \\\n-pix_fmt yuv420p \\\n-c:a copy \\\n-r 30 \\\n-y /home/node/.n8n-files/YT_Automation/Media/Videos/{{ $('Generate Safe Filename').first().json.filename }}_after_filters.mp4"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        -1616,
+        1744
+      ],
+      "id": "ca47f180-c436-4601-896f-024cfbaedd8d",
+      "name": "Apply Cinematic Effects"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Timer Start",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Description Agent": {
+      "main": [
+        [
+          {
+            "node": "Retry – Description Generation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Into Sheets": {
+      "main": [
+        [
+          {
+            "node": "Generate Safe Filename",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Timer Start": {
+      "main": [
+        [
+          {
+            "node": "Docker - Start ComfyUI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fill Video Metadata": {
+      "main": [
+        [
+          {
+            "node": "Delete after removing Google sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Image Generation Prompts": {
+      "main": [
+        [
+          {
+            "node": "Handling Image Prompts Generation Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Separate Image Prompts": {
+      "main": [
+        [
+          {
+            "node": "Validate: Img Prompts = No. of Images",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean Image URLs": {
+      "main": [
+        [
+          {
+            "node": "Validate Image Count",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Image Info": {
+      "main": [
+        [
+          {
+            "node": "Clean Image URLs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate: Img Prompts = No. of Images": {
+      "main": [
+        [
+          {
+            "node": "Retry – Prompt Count Mismatch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Handling Image Prompts Generation Error": {
+      "main": [
+        [
+          {
+            "node": "Image Generation Prompts",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Separate Image Prompts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ComfyUI Server Start Check": {
+      "main": [
+        [
+          {
+            "node": "Wait for ComfyUI server to start",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait – ComfyUI Model Ready",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe Voiceover": {
+      "main": [
+        [
+          {
+            "node": "Select Subtitle Style",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Burn Subtitles": {
+      "main": [
+        [
+          {
+            "node": "Preview Final Render",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select Subtitle Style": {
+      "main": [
+        [
+          {
+            "node": "Generate Subtitles (Word by Word)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Generate Subtitles (Phrase by Phrase)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LLM – Script Generator": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Generate Script",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LLM – Description Generator": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Description Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LLM – Image Prompt Generator": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Image Generation Prompts",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge – Voice + Duration": {
+      "main": [
+        [
+          {
+            "node": "Create Base Video (Images Only)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge – Image Flow": {
+      "main": [
+        [
+          {
+            "node": "Generate Scene Images",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete after removing Google sheets": {
+      "main": [
+        [
+          {
+            "node": "Merge – Image Flow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait – Server Boot": {
+      "main": [
+        [
+          {
+            "node": "Video Metadata",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait – Image Generation Cooldown": {
+      "main": [
+        [
+          {
+            "node": "Get Image Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait – Safety Delay Before Render": {
+      "main": [
+        [
+          {
+            "node": "Fetch Generated Images",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Docker - Start ComfyUI": {
+      "main": [
+        [
+          {
+            "node": "Wait for ComfyUI server to start",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Docker - Start Kokoro": {
+      "main": [
+        [
+          {
+            "node": "Docker - Start Ollama",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Docker - Start Ollama": {
+      "main": [
+        [
+          {
+            "node": "Docker - Start Whisper",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Docker - Start Whisper": {
+      "main": [
+        [
+          {
+            "node": "Wait – Server Boot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Docker - Stop Ollama": {
+      "main": [
+        [
+          {
+            "node": "Delete after removing Google sheets",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Docker - Stop Kokoro": {
+      "main": [
+        [
+          {
+            "node": "Merge – Voice + Duration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Docker - Stop Whisper": {
+      "main": [
+        [
+          {
+            "node": "Burn Subtitles",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Safe Filename": {
+      "main": [
+        [
+          {
+            "node": "Fill Video Metadata",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Script": {
+      "main": [
+        [
+          {
+            "node": "Handle Script Errors",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fix Script JSON": {
+      "main": [
+        [
+          {
+            "node": "Generate Script",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Description Agent",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge Workflow Branches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Handle Script Errors": {
+      "main": [
+        [
+          {
+            "node": "Generate Script",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Validate Script Structure",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Script Structure": {
+      "main": [
+        [
+          {
+            "node": "Fix Script JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Scene Images": {
+      "main": [
+        [
+          {
+            "node": "Restart Flow on Failure",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Generated Images": {
+      "main": [
+        [
+          {
+            "node": "Save Images to Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Images to Disk": {
+      "main": [
+        [
+          {
+            "node": "Docker - Stop ComfyUI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Image Count": {
+      "main": [
+        [
+          {
+            "node": "Wait – Safety Delay Before Render",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Voiceover Audio": {
+      "main": [
+        [
+          {
+            "node": "Retry Flow on Failure",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Docker - Stop ComfyUI": {
+      "main": [
+        [
+          {
+            "node": "Merge Workflow Branches",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Save Voiceover to Disk": {
+      "main": [
+        [
+          {
+            "node": "Docker - Stop Kokoro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retry Flow on Failure": {
+      "main": [
+        [
+          {
+            "node": "Timer Start",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Save Voiceover to Disk",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Final Video Duration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Restart Flow on Failure": {
+      "main": [
+        [
+          {
+            "node": "Timer Start",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait – Image Generation Cooldown",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate Image Duration": {
+      "main": [
+        [
+          {
+            "node": "Merge – Voice + Duration",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Create Base Video (Images Only)": {
+      "main": [
+        [
+          {
+            "node": "Add Audio to Video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Audio to Video": {
+      "main": [
+        [
+          {
+            "node": "Apply Cinematic Effects",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Final Video Duration": {
+      "main": [
+        [
+          {
+            "node": "Calculate Image Duration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Video Metadata": {
+      "main": [
+        [
+          {
+            "node": "Generate Script",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate Scene Images",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Workflow Branches": {
+      "main": [
+        [
+          {
+            "node": "Generate Voiceover Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Subtitles (Word by Word)": {
+      "main": [
+        [
+          {
+            "node": "Save Subtitles to Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Subtitles (Phrase by Phrase)": {
+      "main": [
+        [
+          {
+            "node": "Save Subtitles to Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Subtitles to Disk": {
+      "main": [
+        [
+          {
+            "node": "Docker - Stop Whisper",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preview Final Render": {
+      "main": [
+        [
+          {
+            "node": "Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retry – Description Generation": {
+      "main": [
+        [
+          {
+            "node": "Description Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Into Sheets",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Image Generation Prompts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retry – Prompt Count Mismatch": {
+      "main": [
+        [
+          {
+            "node": "Image Generation Prompts",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Docker - Stop Ollama",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge – Image Flow",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Warm-Up – ComfyUI": {
+      "main": [
+        [
+          {
+            "node": "Docker - Start Kokoro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait for ComfyUI server to start": {
+      "main": [
+        [
+          {
+            "node": "ComfyUI Server Start Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait – ComfyUI Model Ready": {
+      "main": [
+        [
+          {
+            "node": "Warm-Up – ComfyUI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apply Cinematic Effects": {
+      "main": [
+        [
+          {
+            "node": "Transcribe Voiceover",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "timezone": "Asia/Kolkata",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "50254904-9f82-4f9f-8c72-fba4ef654f53",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e67e3fbd94df768886ac99225e14342a6b96a142786c8dbab267e3e93b680481"
+  },
+  "id": "wQrnBGAz9bXY5kPq",
+  "tags": []
+}
