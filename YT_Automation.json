@@ -6,8 +6,8 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        -2144,
-        -48
+        -1584,
+        -416
       ],
       "id": "54eec188-5ced-4389-969c-47d5c4db0669",
       "name": "When clicking ‘Execute workflow’"
@@ -21,8 +21,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        -1536,
-        320
+        -2000,
+        544
       ],
       "id": "c0dc5d0d-e04d-4ec2-ba67-4c8120aefead",
       "name": "Description Agent",
@@ -77,8 +77,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -992,
-        240
+        -1120,
+        752
       ],
       "id": "73d79d93-a791-409d-add2-128639b2b808",
       "name": "Into Sheets"
@@ -90,8 +90,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -1936,
-        -48
+        -1408,
+        -416
       ],
       "id": "d9be4496-cf0e-41f5-97c9-b18556fd9c6a",
       "name": "Timer Start"
@@ -219,8 +219,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        -608,
-        240
+        -736,
+        752
       ],
       "id": "0743baa7-97f4-4684-9c2d-012aaa0cc37b",
       "name": "Fill Video Metadata",
@@ -241,8 +241,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        -1024,
-        416
+        -1472,
+        544
       ],
       "id": "4231daf5-84b2-4815-b151-08b37b9fe41f",
       "name": "Image Generation Prompts",
@@ -257,8 +257,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -480,
-        416
+        -928,
+        544
       ],
       "id": "40883112-71d8-4f81-86a5-34ec7a758f38",
       "name": "Separate Image Prompts"
@@ -270,8 +270,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -1104,
-        848
+        -1520,
+        1088
       ],
       "id": "006e9c34-c99f-4aad-b255-d0789633bd39",
       "name": "Clean Image URLs",
@@ -285,8 +285,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        -1312,
-        848
+        -1696,
+        1088
       ],
       "id": "af84e0c2-abe9-4ede-a930-0450b93cd0ef",
       "name": "Get Image Info"
@@ -298,8 +298,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -272,
-        416
+        -736,
+        544
       ],
       "id": "aede65f7-334b-48d6-a78d-411766e84b75",
       "name": "Validate: Img Prompts = No. of Images",
@@ -333,8 +333,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -720,
-        416
+        -1120,
+        544
       ],
       "id": "6478ef2e-8e41-4690-ab67-c85b7a81a733",
       "name": "Handling Image Prompts Generation Error"
@@ -367,8 +367,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -1360,
-        -48
+        -1856,
+        -128
       ],
       "id": "f2242015-9607-4437-a200-63d65a61130a",
       "name": "ComfyUI Server Start Check"
@@ -380,8 +380,8 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        -48,
-        1744
+        -320,
+        1904
       ],
       "id": "367afaba-0891-4398-8b61-b7be29b66f2c",
       "name": "Stop and Error"
@@ -398,8 +398,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        -1408,
-        1744
+        -1936,
+        1904
       ],
       "id": "1afa8946-2afe-4a7d-8d39-e7de4ed33823",
       "name": "Transcribe Voiceover",
@@ -407,13 +407,13 @@
     },
     {
       "parameters": {
-        "command": "=/usr/bin/ffmpeg \\\n-i /home/node/.n8n-files/YT_Automation/Media/Videos/{{ $('Generate Safe Filename').first().json.filename }}_after_filters.mp4 \\\n-vf \"ass=/home/node/.n8n-files/YT_Automation/Media/Subtitles/{{ $('Generate Safe Filename').first().json.filename }}.ass\" \\\n-c:v libx264 \\\n-pix_fmt yuv420p \\\n-c:a copy \\\n-y /home/node/.n8n-files/YT_Automation/Media/Final_Renders/{{ $('Generate Safe Filename').first().json.filename }}.mp4\n"
+        "command": "=/usr/bin/ffmpeg \\\n-i /home/node/.n8n-files/YT_Automation/Media/Videos/{{ $('Generate Safe Filename').first().json.filename }}_after_filters.mp4 \\\n-vf \"ass=/home/node/.n8n-files/YT_Automation/Media/Subtitles/{{ $('Generate Safe Filename').first().json.filename }}.ass:fontsdir=/home/node/.n8n-files/YT_Automation/Media/Fonts\" \\\n-c:v libx264 \\\n-pix_fmt yuv420p \\\n-c:a copy \\\n-y /home/node/.n8n-files/YT_Automation/Media/Final_Renders/{{ $('Generate Safe Filename').first().json.filename }}.mp4\n"
       },
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        -464,
-        1744
+        -736,
+        1904
       ],
       "id": "189670f5-d5eb-4cce-bebd-5efaead32044",
       "name": "Burn Subtitles"
@@ -474,8 +474,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        -1232,
-        1744
+        -1568,
+        1904
       ],
       "id": "df0d5df5-d172-4b70-b5d1-cfbc6c327a38",
       "name": "Select Subtitle Style"
@@ -494,8 +494,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.3,
       "position": [
-        -2416,
-        496
+        -2880,
+        752
       ],
       "id": "21d88a24-abe6-4df3-a696-df105c913b10",
       "name": "LLM – Script Generator",
@@ -520,8 +520,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.3,
       "position": [
-        -1536,
-        512
+        -2000,
+        736
       ],
       "id": "e00db15d-ad16-402b-b0e4-7a700dc3dda2",
       "name": "LLM – Description Generator",
@@ -546,8 +546,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.3,
       "position": [
-        -1024,
-        608
+        -1472,
+        736
       ],
       "id": "9e24535b-f42a-4cca-bff3-37c89dd48af9",
       "name": "LLM – Image Prompt Generator",
@@ -566,8 +566,8 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        -528,
-        1184
+        -1056,
+        1424
       ],
       "id": "38cc5ed9-7f47-4fb6-9b62-14cdece04c51",
       "name": "Merge – Voice + Duration"
@@ -580,8 +580,8 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        -2096,
-        848
+        -2432,
+        1088
       ],
       "id": "183165cd-7519-409a-814e-0394a7d0e078",
       "name": "Merge – Image Flow"
@@ -595,8 +595,8 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        288,
-        416
+        -192,
+        544
       ],
       "id": "25abe222-535b-4441-ba8e-f2d3c7eba460",
       "name": "Delete after removing Google sheets"
@@ -608,8 +608,8 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        -192,
-        -48
+        -800,
+        -128
       ],
       "id": "9c57ffa2-6cb9-44f0-bbe3-c1380afb3624",
       "name": "Wait – Server Boot",
@@ -622,8 +622,8 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        -1520,
-        848
+        -1872,
+        1088
       ],
       "id": "f88d4142-1002-480d-b3ca-df35592f37e4",
       "name": "Wait – Image Generation Cooldown",
@@ -636,8 +636,8 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        -656,
-        848
+        -1168,
+        1088
       ],
       "id": "d179aa12-7a36-457f-ac0b-fdfed25eece2",
       "name": "Wait – Safety Delay Before Render",
@@ -652,8 +652,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        -1744,
-        -48
+        -2208,
+        -128
       ],
       "id": "12d35752-3c34-4de2-88f1-ecc4748b98ac",
       "name": "Docker - Start ComfyUI",
@@ -669,8 +669,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        -800,
-        -48
+        -1328,
+        -128
       ],
       "id": "17f573a6-4224-4d15-b378-f913e7f68f22",
       "name": "Docker - Start Kokoro",
@@ -685,8 +685,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        -608,
-        -48
+        -1152,
+        -128
       ],
       "id": "ce6d7b39-1fb3-40b5-8f03-0f7345ffc93f",
       "name": "Docker - Start Ollama",
@@ -701,8 +701,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        -400,
-        -48
+        -976,
+        -128
       ],
       "id": "a96d6339-7947-4eb7-9ef3-a4ad4755498c",
       "name": "Docker - Start Whisper",
@@ -717,8 +717,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        112,
-        416
+        -368,
+        544
       ],
       "id": "9a5f2d21-cae1-437d-9723-2d703ff30fed",
       "name": "Docker - Stop Ollama"
@@ -732,8 +732,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        -768,
-        1184
+        -1248,
+        1424
       ],
       "id": "5436d9fd-3497-4275-b749-3bae697303ec",
       "name": "Docker - Stop Kokoro",
@@ -748,8 +748,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        -656,
-        1744
+        -944,
+        1904
       ],
       "id": "06a86178-16b8-4165-ae8e-00d320116b10",
       "name": "Docker - Stop Whisper"
@@ -761,8 +761,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -800,
-        240
+        -912,
+        752
       ],
       "id": "347ba298-cc64-4280-8e92-e50b3914274f",
       "name": "Generate Safe Filename"
@@ -776,8 +776,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        -2416,
-        320
+        -2880,
+        544
       ],
       "id": "d99bd8d6-d034-4a47-a81c-1a5cd4516596",
       "name": "Generate Script",
@@ -814,8 +814,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -1744,
-        320
+        -2192,
+        544
       ],
       "id": "fb33c676-3eb2-470b-9fe0-b5a39b7f3639",
       "name": "Fix Script JSON"
@@ -848,8 +848,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -2128,
-        320
+        -2544,
+        544
       ],
       "id": "21920784-374d-49a2-82a5-f2743c2faf84",
       "name": "Handle Script Errors"
@@ -861,8 +861,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -1936,
-        320
+        -2368,
+        544
       ],
       "id": "3c6059ca-6228-4734-a593-4075f004f253",
       "name": "Validate Script Structure",
@@ -900,8 +900,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        -1936,
-        848
+        -2256,
+        1088
       ],
       "id": "67ed343e-03cc-45dd-8b93-1c0dd97a57ec",
       "name": "Generate Scene Images",
@@ -915,8 +915,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        -480,
-        848
+        -992,
+        1088
       ],
       "id": "6346a804-c634-4b17-b23c-75f5ba8b34ca",
       "name": "Fetch Generated Images"
@@ -930,8 +930,8 @@
       "type": "n8n-nodes-base.readWriteFile",
       "typeVersion": 1.1,
       "position": [
-        -272,
-        848
+        -800,
+        1088
       ],
       "id": "7bdee364-1637-498a-a769-be5cf9c8131c",
       "name": "Save Images to Disk"
@@ -943,8 +943,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -880,
-        848
+        -1344,
+        1088
       ],
       "id": "87625888-ffe4-4fc0-bd10-a08a4cc7703f",
       "name": "Validate Image Count"
@@ -955,7 +955,7 @@
         "url": "http://kokoro:8880/v1/audio/speech",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"model\": \"kokoro\",\n  \"input\": \"{{ $('Fix Script JSON').item.json.script }}\",\n  \"voice\": \"am_michael\"\n} ",
+        "jsonBody": "={\n  \"model\": \"kokoro\",\n  \"input\": \"{{ $('Fix Script JSON').item.json.script }}\",\n  \"voice\": \"{{ $('Video Metadata').item.json['Voice Model'] }}\"\n} ",
         "options": {
           "response": {
             "response": {
@@ -967,8 +967,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        -1424,
-        1184
+        -1824,
+        1424
       ],
       "id": "99ae491a-dd48-4e8c-bc53-92c3774db510",
       "name": "Generate Voiceover Audio"
@@ -982,8 +982,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        -64,
-        848
+        -608,
+        1088
       ],
       "id": "6ee953b1-619c-4d49-9e2f-213127d00535",
       "name": "Docker - Stop ComfyUI",
@@ -999,8 +999,8 @@
       "type": "n8n-nodes-base.readWriteFile",
       "typeVersion": 1.1,
       "position": [
-        -1008,
-        1184
+        -1456,
+        1424
       ],
       "id": "e6a02f4c-8d0d-4eb7-bb93-b8048dec2bea",
       "name": "Save Voiceover to Disk"
@@ -1033,8 +1033,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -1232,
-        1184
+        -1648,
+        1424
       ],
       "id": "b985b6f7-e706-4f6f-b565-d9783d27bda8",
       "name": "Retry Flow on Failure"
@@ -1067,8 +1067,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -1728,
-        848
+        -2064,
+        1088
       ],
       "id": "f4b620ec-5f4e-4c79-954c-efafce5ae3bd",
       "name": "Restart Flow on Failure"
@@ -1080,8 +1080,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -1008,
-        1408
+        -1248,
+        1584
       ],
       "id": "aa7177c9-9894-4a34-a704-4e36a60f17ca",
       "name": "Calculate Image Duration"
@@ -1093,8 +1093,8 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        -2032,
-        1744
+        -2512,
+        1904
       ],
       "id": "ceb5bdc6-fdfb-4c72-a53a-4dd316366be0",
       "name": "Create Base Video (Images Only)"
@@ -1106,8 +1106,8 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        -1824,
-        1744
+        -2336,
+        1904
       ],
       "id": "5d1b4c3c-5594-4490-a8bc-2d1ff33c0e1a",
       "name": "Add Audio to Video"
@@ -1119,8 +1119,8 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        -1216,
-        1408
+        -1456,
+        1584
       ],
       "id": "01009d4d-56d1-4c36-83bc-dc4331e5fdd9",
       "name": "Get Final Video Duration"
@@ -1138,7 +1138,7 @@
             {
               "id": "4d061e83-0e0c-400e-bac1-cfd5d3fdd596",
               "name": "Number of Images",
-              "value": 2,
+              "value": 1,
               "type": "number"
             },
             {
@@ -1150,7 +1150,19 @@
             {
               "id": "ece67af2-82d8-4b82-b03d-f0eab4ae2f86",
               "name": "Subtitle Type",
-              "value": "word-by-word",
+              "value": "phrase-by-phrase",
+              "type": "string"
+            },
+            {
+              "id": "ba594098-e38f-4ac6-9300-bf22b54069fc",
+              "name": "Font",
+              "value": "emblema_one",
+              "type": "string"
+            },
+            {
+              "id": "c65df031-038a-45cb-a948-8148138346ae",
+              "name": "Voice Model",
+              "value": "am_michael",
               "type": "string"
             }
           ]
@@ -1160,8 +1172,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -2624,
-        320
+        -1872,
+        224
       ],
       "id": "10e88019-4423-4e0e-addc-80d756ccb5e1",
       "name": "Video Metadata"
@@ -1173,34 +1185,34 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        -1616,
-        1184
+        -1984,
+        1424
       ],
       "id": "2478a801-c724-4aa3-847f-d380c6249c0e",
       "name": "Merge Workflow Branches"
     },
     {
       "parameters": {
-        "jsCode": "function toAssTime(seconds) {\n  const h = Math.floor(seconds / 3600);\n  const m = Math.floor((seconds % 3600) / 60);\n  const s = (seconds % 60).toFixed(2);\n  return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(5,'0')}`;\n}\n\nconst segments = $json.segments;\n\nlet ass = `[Script Info]\nScriptType: v4.00+\nCollisions: Normal\nPlayResX: 1080\nPlayResY: 1920\nScaledBorderAndShadow: yes\n\n[V4+ Styles]\nFormat: Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding\nStyle: Default,Neusa Bold,110,&H00FFFFFF,&H000000FF,&H00000000,&H64000000,1,0,1,8,2,2,100,100,250,1\n\n[Events]\nFormat: Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text\n`;\n\nfor (const segment of segments) {\n  if (!segment.words) continue;\n\n  for (const w of segment.words) {\n    const start = toAssTime(w.start);\n    const end = toAssTime(w.end);\n\n    const cleanWord = w.word.trim().toUpperCase();\n\n    ass += `Dialogue: 0,${start},${end},Default,,0,0,0,,${cleanWord}\\n`;\n  }\n}\n\nreturn [{\n  binary: {\n    data: {\n      data: Buffer.from(ass).toString('base64'),\n      mimeType: 'text/plain',\n      fileName: 'subtitles_word.ass'\n    }\n  }\n}];\n"
+        "jsCode": "// function toAssTime(seconds) {\n//   const h = Math.floor(seconds / 3600);\n//   const m = Math.floor((seconds % 3600) / 60);\n//   const s = (seconds % 60).toFixed(2);\n//   return `${h}:${String(m).padStart(2, \"0\")}:${String(s).padStart(5, \"0\")}`;\n// }\n\n// const segments = $json.segments;\n\n// let ass = `[Script Info]\n// ScriptType: v4.00+\n// Collisions: Normal\n// PlayResX: 1080\n// PlayResY: 1920\n// ScaledBorderAndShadow: yes\n\n// [V4+ Styles]\n// Format: Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding\n// Style: Default,Neusa Bold,110,&H00FFFFFF,&H000000FF,&H00000000,&H64000000,1,0,1,8,2,2,100,100,250,1\n\n// [Events]\n// Format: Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text\n// `;\n\n// for (const segment of segments) {\n//   if (!segment.words) continue;\n\n//   for (const w of segment.words) {\n//     const start = toAssTime(w.start);\n//     const end = toAssTime(w.end);\n\n//     const cleanWord = w.word.trim().toUpperCase();\n\n//     ass += `Dialogue: 0,${start},${end},Default,,0,0,0,,${cleanWord}\\n`;\n//   }\n// }\n\n// return [\n//   {\n//     binary: {\n//       data: {\n//         data: Buffer.from(ass).toString(\"base64\"),\n//         mimeType: \"text/plain\",\n//         fileName: \"subtitles_word.ass\",\n//       },\n//     },\n//   },\n// ];\n\n\nfunction toAssTime(seconds) {\n  const h = Math.floor(seconds / 3600);\n  const m = Math.floor((seconds % 3600) / 60);\n  const s = (seconds % 60).toFixed(2);\n  return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(5,'0')}`;\n}\n\n// 🔑 Explicit data sources (no guessing, no magic)\nconst segments = $items(\"Transcribe Voiceover\")[0].json.segments;\nconst font = $items(\"Define Subtitle Typography\")[0].json.subtitleFont;\n\n// Defensive checks\nif (!segments || !Array.isArray(segments)) {\n  throw new Error(\"segments missing or invalid from Transcribe Voiceover\");\n}\n\nif (!font) {\n  throw new Error(\"subtitleFont missing from Define Subtitle Typography\");\n}\n\nlet ass = `[Script Info]\nScriptType: v4.00+\nCollisions: Normal\nPlayResX: 1080\nPlayResY: 1920\nScaledBorderAndShadow: yes\n\n[V4+ Styles]\nFormat: Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding\nStyle: Default,${font.name},${font.sizeWord},&H00FFFFFF,&H000000FF,&H00000000,&H64000000,${font.bold},${font.italic},1,${font.outlineWord},2,${font.alignment},100,100,250,1\n\n[Events]\nFormat: Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text\n`;\n\nfor (const segment of segments) {\n  if (!segment.words) continue;\n\n  for (const w of segment.words) {\n    const start = toAssTime(w.start);\n    const end = toAssTime(w.end);\n    const cleanWord = w.word.trim().toUpperCase();\n\n    ass += `Dialogue: 0,${start},${end},Default,,0,0,0,,${cleanWord}\\n`;\n  }\n}\n\nreturn [{\n  binary: {\n    data: {\n      data: Buffer.from(ass).toString('base64'),\n      mimeType: 'text/plain',\n      fileName: 'subtitles_word.ass'\n    }\n  }\n}];\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -1040,
-        1648
+        -1360,
+        1808
       ],
       "id": "d501a7c6-c812-4b71-b8b8-f249bb570955",
       "name": "Generate Subtitles (Word by Word)"
     },
     {
       "parameters": {
-        "jsCode": "function toAssTime(seconds) {\n  const h = Math.floor(seconds / 3600);\n  const m = Math.floor((seconds % 3600) / 60);\n  const s = (seconds % 60).toFixed(2);\n  return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(5,'0')}`;\n}\n\nconst segments = $json.segments;\n\nlet ass = `[Script Info]\nScriptType: v4.00+\nCollisions: Normal\nPlayResX: 1080\nPlayResY: 1920\n\n[V4+ Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\nStyle: Default,Neusa Bold,110,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,1,3,0,2,50,50,180,1\n\n[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n`;\n\nfor (const segment of segments) {\n  const start = toAssTime(segment.start);\n  const end = toAssTime(segment.end);\n\n  const cleanText = segment.text.trim().replace(/\\n/g, ' ');\n\n  ass += `Dialogue: 0,${start},${end},Default,,0,0,0,,{\\\\bord3\\\\shad0}${cleanText}\\n`;\n}\n\nreturn [{\n  binary: {\n    data: {\n      data: Buffer.from(ass).toString('base64'),\n      mimeType: 'text/plain',\n      fileName: 'subtitles_phrase.ass'\n    }\n  }\n}];\n"
+        "jsCode": "// function toAssTime(seconds) {\n//   const h = Math.floor(seconds / 3600);\n//   const m = Math.floor((seconds % 3600) / 60);\n//   const s = (seconds % 60).toFixed(2);\n//   return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(5,'0')}`;\n// }\n\n// const segments = $json.segments;\n// const font = $json.subtitleFont;\n\n// if (!font) {\n//   throw new Error(\"subtitleFont missing. Define Subtitle Typography node not connected.\");\n// }\n\n// let ass = `[Script Info]\n// ScriptType: v4.00+\n// Collisions: Normal\n// PlayResX: 1080\n// PlayResY: 1920\n\n// [V4+ Styles]\n// Format: Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding\n// Style: Default,${font.name},${font.sizePhrase},&H00FFFFFF,&H000000FF,&H00000000,&H00000000,${font.bold},${font.italic},1,${font.outlinePhrase},0,${font.alignment},50,50,180,1\n\n// [Events]\n// Format: Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text\n// `;\n\n// for (const segment of segments) {\n//   const start = toAssTime(segment.start);\n//   const end = toAssTime(segment.end);\n//   const cleanText = segment.text.trim().replace(/\\n/g, ' ');\n\n//   ass += `Dialogue: 0,${start},${end},Default,,0,0,0,,${cleanText}\\n`;\n// }\n\n// return [{\n//   binary: {\n//     data: {\n//       data: Buffer.from(ass).toString('base64'),\n//       mimeType: 'text/plain',\n//       fileName: 'subtitles_phrase.ass'\n//     }\n//   }\n// }];\n\n\nfunction toAssTime(seconds) {\n  const h = Math.floor(seconds / 3600);\n  const m = Math.floor((seconds % 3600) / 60);\n  const s = (seconds % 60).toFixed(2);\n  return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(5,'0')}`;\n}\n\n// 🔑 Explicit data sources (same rule everywhere)\nconst segments = $items(\"Transcribe Voiceover\")[0].json.segments;\nconst font = $items(\"Define Subtitle Typography\")[0].json.subtitleFont;\n\n// Defensive checks\nif (!segments || !Array.isArray(segments)) {\n  throw new Error(\"segments missing or invalid from Transcribe Voiceover\");\n}\n\nif (!font) {\n  throw new Error(\"subtitleFont missing from Define Subtitle Typography\");\n}\n\nlet ass = `[Script Info]\nScriptType: v4.00+\nCollisions: Normal\nPlayResX: 1080\nPlayResY: 1920\n\n[V4+ Styles]\nFormat: Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding\nStyle: Default,${font.name},${font.sizePhrase},&H00FFFFFF,&H000000FF,&H00000000,&H00000000,${font.bold},${font.italic},1,${font.outlinePhrase},0,${font.alignment},50,50,180,1\n\n[Events]\nFormat: Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text\n`;\n\nfor (const segment of segments) {\n  const start = toAssTime(segment.start);\n  const end = toAssTime(segment.end);\n  const cleanText = segment.text.trim().replace(/\\n/g, ' ');\n\n  ass += `Dialogue: 0,${start},${end},Default,,0,0,0,,${cleanText}\\n`;\n}\n\nreturn [{\n  binary: {\n    data: {\n      data: Buffer.from(ass).toString('base64'),\n      mimeType: 'text/plain',\n      fileName: 'subtitles_phrase.ass'\n    }\n  }\n}];\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -1040,
-        1824
+        -1360,
+        1984
       ],
       "id": "516ad8f5-c642-4d1f-acfe-6c2abccd5c7e",
       "name": "Generate Subtitles (Phrase by Phrase)"
@@ -1214,8 +1226,8 @@
       "type": "n8n-nodes-base.readWriteFile",
       "typeVersion": 1.1,
       "position": [
-        -848,
-        1744
+        -1136,
+        1904
       ],
       "id": "29001686-2adc-4999-89e0-3786f93c0e34",
       "name": "Save Subtitles to Disk"
@@ -1228,8 +1240,8 @@
       "type": "n8n-nodes-base.readWriteFile",
       "typeVersion": 1.1,
       "position": [
-        -256,
-        1744
+        -528,
+        1904
       ],
       "id": "271d3657-d14e-41c0-8dda-decd40082a26",
       "name": "Preview Final Render"
@@ -1262,8 +1274,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -1232,
-        320
+        -1664,
+        544
       ],
       "id": "77b44d81-e489-4ab5-a110-1ff627c4d536",
       "name": "Retry – Description Generation"
@@ -1296,8 +1308,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -80,
-        416
+        -544,
+        544
       ],
       "id": "28b939a1-810e-4924-b11e-035cbdfdfe0a",
       "name": "Retry – Prompt Count Mismatch"
@@ -1334,8 +1346,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        -992,
-        -48
+        -1504,
+        -128
       ],
       "id": "0bc44454-8102-4133-9035-a7524875b066",
       "name": "Warm-Up – ComfyUI"
@@ -1348,8 +1360,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        -1552,
-        -48
+        -2032,
+        -128
       ],
       "id": "e631e3bb-a721-4e7d-ba09-486f61c25353",
       "name": "Wait for ComfyUI server to start",
@@ -1366,8 +1378,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        -1168,
-        -48
+        -1680,
+        -128
       ],
       "id": "28c13acb-c9c7-4c52-90a3-a25fb44f1bbc",
       "name": "Wait – ComfyUI Model Ready",
@@ -1382,11 +1394,220 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        -1616,
-        1744
+        -2144,
+        1904
       ],
       "id": "ca47f180-c436-4601-896f-024cfbaedd8d",
       "name": "Apply Cinematic Effects"
+    },
+    {
+      "parameters": {
+        "jsCode": "const videoMeta = $items(\"Video Metadata\")[0].json;\n\nconst fontFamilyRaw = videoMeta[\"Font\"];\n\nif (!fontFamilyRaw) {\n  throw new Error(\"Missing Font in Video Metadata\");\n}\n\n// Normalize font family:\n// - underscores → spaces\n// - Title Case per word\nconst fontFamilyNormalized = fontFamilyRaw\n  .replace(/_/g, \" \")\n  .split(\" \")\n  .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())\n  .join(\" \");\n\n// Validate ASS-friendly convention (multi-word allowed)\nconst ASS_FONT_REGEX = /^([A-Z][a-z]+)(\\s[A-Z][a-z]+)*$/;\n\nif (!ASS_FONT_REGEX.test(fontFamilyNormalized)) {\n  throw new Error(\n    `Invalid Font name \"${fontFamilyRaw}\". Expected capitalized words (e.g. \"Montserrat\", \"Bebas Neue\")`\n  );\n}\n\n// Output consumed by subtitle generators\nreturn [{\n  json: {\n    subtitleFont: {\n      family: fontFamilyNormalized,\n      name: fontFamilyNormalized,\n\n      // visual constants (single-style system)\n      bold: 0,\n      italic: 0,\n      sizeWord: 110,\n      sizePhrase: 110,\n      outlineWord: 8,\n      outlinePhrase: 3,\n      alignment: 2\n    }\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1744,
+        1904
+      ],
+      "id": "6899d9ee-82a9-44f4-b49a-d02f205e1ec0",
+      "name": "Define Subtitle Typography"
+    },
+    {
+      "parameters": {
+        "jsCode": "const videoMeta = $items(\"Video Metadata\")[0].json;\n\nconst rawFont = videoMeta[\"Font\"];\nif (!rawFont) {\n  throw new Error(\"Font missing in Video Metadata\");\n}\n\nreturn [{\n  json: {\n    ...videoMeta,\n    _fontCheck: {\n      raw: rawFont,\n      filePath: `/home/node/.n8n-files/YT_Automation/Media/Fonts/${rawFont}.ttf`\n    }\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1696,
+        224
+      ],
+      "id": "febbfa27-852c-4cff-9cc0-4422355f7d65",
+      "name": "Prepare Font File Path"
+    },
+    {
+      "parameters": {
+        "fileSelector": "={{ $json._fontCheck.filePath }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        -1520,
+        224
+      ],
+      "id": "e0ed8b32-3328-428a-8993-c5ce1b6091df",
+      "name": "Check Font Exists",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "0610f77f-b520-4f5d-886d-04c6bc89b56b",
+              "leftValue": "={{ $('Check Font Exists').item.json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1344,
+        224
+      ],
+      "id": "f0b066e5-4c41-4ddd-bb09-7f322a2fab68",
+      "name": "Handle Font not Found Error"
+    },
+    {
+      "parameters": {
+        "errorMessage": "=Font \"{{ $('Video Metadata').item.json.Font }}\" not found in Font Library"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        -1168,
+        224
+      ],
+      "id": "e71e079e-3a0f-4c62-8abe-42695a53f809",
+      "name": "Font Doesn't Exist"
+    },
+    {
+      "parameters": {
+        "content": "# START",
+        "height": 240,
+        "width": 368
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1648,
+        -480
+      ],
+      "typeVersion": 1,
+      "id": "cb5e9bef-8abe-4003-962b-623340a0fd28",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# START SERVERS AND WARM-UP MODELS",
+        "height": 272,
+        "width": 1632
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2288,
+        -208
+      ],
+      "typeVersion": 1,
+      "id": "8018bfdc-2d22-42f8-abf0-7b57887aceb2",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "# VIDEO METADATA VALIDATIONS",
+        "height": 304,
+        "width": 880
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1904,
+        96
+      ],
+      "typeVersion": 1,
+      "id": "759d90b4-62bc-4f21-9d7f-0f273e2ccf81",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## FONT VALIDATION",
+        "height": 224,
+        "width": 848,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1888,
+        160
+      ],
+      "typeVersion": 1,
+      "id": "93db9729-475f-4ac2-8913-aad144100c25",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "# PROMPT GENERATION PIPELINE",
+        "height": 496,
+        "width": 2880
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2912,
+        448
+      ],
+      "typeVersion": 1,
+      "id": "0da5203f-23b5-4e11-be59-3f6b808fcabc",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "# IMAGE GENERATION PIPELINE",
+        "height": 304,
+        "width": 2080
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2512,
+        992
+      ],
+      "typeVersion": 1,
+      "id": "33c6db3d-4274-427a-9c05-4b8347907651",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "# VOICEOVER GENERATION PIPELINE",
+        "height": 384,
+        "width": 1168
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2064,
+        1344
+      ],
+      "typeVersion": 1,
+      "id": "2c97ecfc-8f44-4a3d-b9c9-4b4c1a3d0cfd",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "# VIDEO GENERATION ADN SUBTITLE PIPELINE",
+        "height": 416,
+        "width": 2368
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2560,
+        1776
+      ],
+      "typeVersion": 1,
+      "id": "84b14868-3003-410d-b14f-b0c18d19276c",
+      "name": "Sticky Note7"
     }
   ],
   "pinData": {},
@@ -1541,7 +1762,7 @@
       "main": [
         [
           {
-            "node": "Select Subtitle Style",
+            "node": "Define Subtitle Typography",
             "type": "main",
             "index": 0
           }
@@ -1993,12 +2214,7 @@
       "main": [
         [
           {
-            "node": "Generate Script",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Generate Scene Images",
+            "node": "Prepare Font File Path",
             "type": "main",
             "index": 0
           }
@@ -2149,6 +2365,57 @@
           }
         ]
       ]
+    },
+    "Define Subtitle Typography": {
+      "main": [
+        [
+          {
+            "node": "Select Subtitle Style",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Font File Path": {
+      "main": [
+        [
+          {
+            "node": "Check Font Exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Font Exists": {
+      "main": [
+        [
+          {
+            "node": "Handle Font not Found Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Handle Font not Found Error": {
+      "main": [
+        [
+          {
+            "node": "Font Doesn't Exist",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Generate Script",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -2159,7 +2426,7 @@
     "timezone": "Asia/Kolkata",
     "callerPolicy": "workflowsFromSameOwner"
   },
-  "versionId": "7574edf8-32cc-408d-a984-dc212df31ad4",
+  "versionId": "287dae44-4e67-4035-9385-94ffef1e80a4",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "e67e3fbd94df768886ac99225e14342a6b96a142786c8dbab267e3e93b680481"
