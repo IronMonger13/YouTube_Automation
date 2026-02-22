@@ -21,8 +21,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        -1808,
-        672
+        -2272,
+        656
       ],
       "id": "c0dc5d0d-e04d-4ec2-ba67-4c8120aefead",
       "name": "Description Agent",
@@ -114,7 +114,7 @@
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "filename": "={{ $json.filename }}",
+            "filename": "={{ $('Generate Safe Filename').item.json.filename }}",
             "Video Title": "={{ $('Into Sheets').item.json['Video Title'] }}",
             "Keywords": "={{ $('Into Sheets').item.json.Keywords }}",
             "Description": "={{ $('Into Sheets').item.json.Description }}",
@@ -241,8 +241,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        -1312,
-        672
+        -864,
+        656
       ],
       "id": "4231daf5-84b2-4815-b151-08b37b9fe41f",
       "name": "Image Generation Prompts",
@@ -257,8 +257,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -784,
-        672
+        -336,
+        656
       ],
       "id": "40883112-71d8-4f81-86a5-34ec7a758f38",
       "name": "Separate Image Prompts"
@@ -298,8 +298,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -592,
-        672
+        -144,
+        656
       ],
       "id": "aede65f7-334b-48d6-a78d-411766e84b75",
       "name": "Validate: Img Prompts = No. of Images",
@@ -333,8 +333,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -992,
-        672
+        -544,
+        656
       ],
       "id": "6478ef2e-8e41-4690-ab67-c85b7a81a733",
       "name": "Handling Image Prompts Generation Error"
@@ -351,7 +351,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        -1920,
+        -1872,
         1760
       ],
       "id": "1afa8946-2afe-4a7d-8d39-e7de4ed33823",
@@ -365,7 +365,7 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        -752,
+        -704,
         1760
       ],
       "id": "189670f5-d5eb-4cce-bebd-5efaead32044",
@@ -427,7 +427,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        -1552,
+        -1504,
         1760
       ],
       "id": "df0d5df5-d172-4b70-b5d1-cfbc6c327a38",
@@ -447,8 +447,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.3,
       "position": [
-        -2816,
-        864
+        -3280,
+        848
       ],
       "id": "21d88a24-abe6-4df3-a696-df105c913b10",
       "name": "LLM – Script Generator",
@@ -473,8 +473,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.3,
       "position": [
-        -1808,
-        864
+        -2272,
+        848
       ],
       "id": "e00db15d-ad16-402b-b0e4-7a700dc3dda2",
       "name": "LLM – Description Generator",
@@ -499,8 +499,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.3,
       "position": [
-        -1312,
-        864
+        -864,
+        848
       ],
       "id": "9e24535b-f42a-4cca-bff3-37c89dd48af9",
       "name": "LLM – Image Prompt Generator",
@@ -548,7 +548,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        -2448,
+        -2464,
         32
       ],
       "id": "12d35752-3c34-4de2-88f1-ecc4748b98ac",
@@ -613,8 +613,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        -224,
-        672
+        224,
+        656
       ],
       "id": "9a5f2d21-cae1-437d-9723-2d703ff30fed",
       "name": "Docker - Stop Ollama"
@@ -644,7 +644,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        -928,
+        -880,
         1760
       ],
       "id": "06a86178-16b8-4165-ae8e-00d320116b10",
@@ -657,8 +657,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -1968,
-        672
+        -2432,
+        656
       ],
       "id": "347ba298-cc64-4280-8e92-e50b3914274f",
       "name": "Generate Safe Filename"
@@ -672,8 +672,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        -2816,
-        672
+        -3280,
+        656
       ],
       "id": "d99bd8d6-d034-4a47-a81c-1a5cd4516596",
       "name": "Generate Script",
@@ -710,8 +710,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -2160,
-        672
+        -2624,
+        656
       ],
       "id": "fb33c676-3eb2-470b-9fe0-b5a39b7f3639",
       "name": "Fix Script JSON"
@@ -744,8 +744,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -2512,
-        672
+        -2992,
+        656
       ],
       "id": "21920784-374d-49a2-82a5-f2743c2faf84",
       "name": "Handle Script Errors"
@@ -757,8 +757,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -2336,
-        672
+        -2800,
+        656
       ],
       "id": "3c6059ca-6228-4734-a593-4075f004f253",
       "name": "Validate Script Structure",
@@ -990,7 +990,7 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        -2496,
+        -2448,
         1760
       ],
       "id": "ceb5bdc6-fdfb-4c72-a53a-4dd316366be0",
@@ -1003,7 +1003,7 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        -2320,
+        -2272,
         1760
       ],
       "id": "5d1b4c3c-5594-4490-a8bc-2d1ff33c0e1a",
@@ -1045,6 +1045,12 @@
               "type": "string"
             },
             {
+              "id": "6b40b86b-3906-43c5-aa31-ebb5f8fc6417",
+              "name": "Theme",
+              "value": "Stoicism",
+              "type": "string"
+            },
+            {
               "id": "ece67af2-82d8-4b82-b03d-f0eab4ae2f86",
               "name": "Subtitle Type",
               "value": "phrase-by-phrase",
@@ -1082,7 +1088,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -1344,
+        -1296,
         1664
       ],
       "id": "d501a7c6-c812-4b71-b8b8-f249bb570955",
@@ -1095,7 +1101,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -1344,
+        -1296,
         1840
       ],
       "id": "516ad8f5-c642-4d1f-acfe-6c2abccd5c7e",
@@ -1110,7 +1116,7 @@
       "type": "n8n-nodes-base.readWriteFile",
       "typeVersion": 1.1,
       "position": [
-        -1120,
+        -1072,
         1760
       ],
       "id": "29001686-2adc-4999-89e0-3786f93c0e34",
@@ -1124,7 +1130,7 @@
       "type": "n8n-nodes-base.readWriteFile",
       "typeVersion": 1.1,
       "position": [
-        -576,
+        -528,
         1760
       ],
       "id": "271d3657-d14e-41c0-8dda-decd40082a26",
@@ -1158,8 +1164,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -1504,
-        672
+        -1968,
+        656
       ],
       "id": "77b44d81-e489-4ab5-a110-1ff627c4d536",
       "name": "Retry – Description Generation"
@@ -1192,8 +1198,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -400,
-        672
+        48,
+        656
       ],
       "id": "28b939a1-810e-4924-b11e-035cbdfdfe0a",
       "name": "Retry – Prompt Count Mismatch"
@@ -1260,7 +1266,7 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        -2128,
+        -2080,
         1760
       ],
       "id": "ca47f180-c436-4601-896f-024cfbaedd8d",
@@ -1273,7 +1279,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -1728,
+        -1680,
         1760
       ],
       "id": "6899d9ee-82a9-44f4-b49a-d02f205e1ec0",
@@ -1373,11 +1379,11 @@
       "parameters": {
         "content": "# START SERVERS AND WARM-UP MODELS",
         "height": 256,
-        "width": 2048
+        "width": 2064
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -2512,
+        -2528,
         -48
       ],
       "typeVersion": 1,
@@ -1419,11 +1425,11 @@
       "parameters": {
         "content": "# PROMPT GENERATION PIPELINE",
         "height": 432,
-        "width": 2784
+        "width": 3712
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -2848,
+        -3328,
         576
       ],
       "typeVersion": 1,
@@ -1468,7 +1474,7 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -2528,
+        -2480,
         1632
       ],
       "typeVersion": 1,
@@ -1516,7 +1522,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        -2256,
+        -2272,
         32
       ],
       "id": "e631e3bb-a721-4e7d-ba09-486f61c25353",
@@ -1554,7 +1560,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -2064,
+        -2080,
         32
       ],
       "id": "f2242015-9607-4437-a200-63d65a61130a",
@@ -1624,6 +1630,131 @@
       ],
       "id": "367afaba-0891-4398-8b61-b7be29b66f2c",
       "name": "Workflow End"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=## Role\nYou are a strategic YouTube SEO specialist who understands search intent, content indexing, niche positioning, and algorithm behavior. You think structurally before generating metadata, exploring multiple keyword clusters internally and selecting the strongest SEO-aligned set.\n\n## Goal\nGenerate up to 5 highly relevant YouTube hashtags based on:\n- Title: {{ $('Validate Script Structure').item.json.title }}\n- Story & Quote: {{ $('Validate Script Structure').item.json.script }}\n- Theme / Category: {{ $('Video Metadata').item.json.Theme }}\n\n## Instructions\n\n1. Internally apply structured reasoning:\n   - Generate 2–3 possible hashtag clusters aligned with the video's topic and emotional core.\n   - Evaluate each cluster for:\n     • Search intent alignment\n     • Niche clarity\n     • Evergreen relevance\n     • Specificity over generic virality\n   - Select the strongest-performing cluster.\n   - Do not reveal this reasoning in the final output.\n\n2. Hashtag generation rules:\n   - Maximum 5 hashtags total.\n   - Each hashtag must be directly relevant to the video’s content.\n   - Avoid generic tags like #viral, #fyp, #trending unless they are contextually justified.\n   - Prioritize searchable, evergreen, niche-defining keywords.\n   - Avoid repeating words unnecessarily across hashtags.\n   - Do not overstuff or create long unnatural hashtag phrases.\n\n3. Structure:\n   - 1 primary hashtag (strongest niche-defining term).\n   - Up to 4 secondary hashtags (supporting search intent and thematic depth).\n\n4. Output rules:\n   - Output ONLY valid JSON.\n   - No explanations.\n   - No formatting outside JSON.\n   - No markdown.\n   - No emojis.\n\n## Output Format\n{\n  \"primary_hashtag\": \"#example\",\n  \"secondary_hashtags\": [\n    \"#example2\",\n    \"#example3\",\n    \"#example4\",\n    \"#example5\"\n  ]\n}\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -1776,
+        656
+      ],
+      "id": "97092741-4fa7-4d75-a1d0-8e464c51f522",
+      "name": "Hashtag Agent",
+      "retryOnFail": false,
+      "maxTries": 2,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "llama3.2:latest",
+          "mode": "list",
+          "cachedResultName": "llama3.2:latest"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -1776,
+        864
+      ],
+      "id": "8443b00d-292a-444f-9761-9bcb50bf879d",
+      "name": "LLM – Hashtag Generator",
+      "credentials": {
+        "openAiApi": {
+          "id": "6r23Cbl9kYXbEbV4",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "a61f2ef5-b45e-4d31-8ad6-7d379c12a023",
+              "leftValue": "={{ $('Hashtag Agent').item.json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1456,
+        656
+      ],
+      "id": "046d9e02-066f-484b-80a6-93a87f459c23",
+      "name": "Handling Hashtag Prompts Generation Error"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse the model output\nconst parsed = JSON.parse(items[0].json.output);\n\n// Validate primary hashtag\nif (!parsed.primary_hashtag || typeof parsed.primary_hashtag !== \"string\") {\n  throw new Error(\"Primary hashtag is missing or invalid.\");\n}\n\n// Validate secondary hashtags count\nif (!Array.isArray(parsed.secondary_hashtags)) {\n  throw new Error(\"Secondary hashtags must be an array.\");\n}\n\nif (parsed.secondary_hashtags.length !== 4) {\n  throw new Error(\"Secondary hashtags must contain exactly 4 items.\");\n}\n\n// Combine all hashtags for duplicate check\nconst allHashtags = [\n  parsed.primary_hashtag,\n  ...parsed.secondary_hashtags\n];\n\n// Normalize for duplicate detection\nconst normalized = allHashtags.map(tag =>\n  tag.trim().toLowerCase()\n);\n\n// Check duplicates\nconst unique = new Set(normalized);\n\nif (unique.size !== normalized.length) {\n  throw new Error(\"Duplicate hashtags detected (case-insensitive).\");\n}\n\n// If everything is valid, return clean structured output\nreturn [\n  {\n    json: {\n      primary_hashtag: parsed.primary_hashtag.trim(),\n      secondary_hashtags: parsed.secondary_hashtags.map(tag => tag.trim())\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1264,
+        656
+      ],
+      "id": "0d346b3c-7a07-4ec3-bf0d-68b98a060628",
+      "name": "Validate Hashtag Structure"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "341c7f87-b926-485e-a223-38237fe93350",
+              "leftValue": "={{ $('Hashtag Agent').item.json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1072,
+        656
+      ],
+      "id": "7358f450-7e09-49ee-9e9e-3f1f098fe8eb",
+      "name": "Retry - Hashtag Generation"
     }
   ],
   "pinData": {},
@@ -2220,7 +2351,7 @@
         ],
         [
           {
-            "node": "Image Generation Prompts",
+            "node": "Hashtag Agent",
             "type": "main",
             "index": 0
           }
@@ -2397,6 +2528,75 @@
           }
         ]
       ]
+    },
+    "LLM – Hashtag Generator": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Hashtag Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hashtag Agent": {
+      "main": [
+        [
+          {
+            "node": "Handling Hashtag Prompts Generation Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Handling Hashtag Prompts Generation Error": {
+      "main": [
+        [
+          {
+            "node": "Hashtag Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Validate Hashtag Structure",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Hashtag Structure": {
+      "main": [
+        [
+          {
+            "node": "Retry - Hashtag Generation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retry - Hashtag Generation": {
+      "main": [
+        [
+          {
+            "node": "Hashtag Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Image Generation Prompts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -2407,7 +2607,7 @@
     "timezone": "Asia/Kolkata",
     "callerPolicy": "workflowsFromSameOwner"
   },
-  "versionId": "60727abe-69f9-421e-a7d9-9d174962a8c4",
+  "versionId": "8fcba9e1-3737-4086-be94-b187056c3c8c",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "e67e3fbd94df768886ac99225e14342a6b96a142786c8dbab267e3e93b680481"
